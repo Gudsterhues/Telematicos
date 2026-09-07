@@ -1,0 +1,83 @@
+//
+// Do any local configuration here
+//
+
+// Consider adding the 1918 zones here, if they are not used in your
+// organization
+//include "/etc/bind/zones.rfc1918";
+
+
+// Zona hacia adelante - hurtado.com
+zone "hurtado.com" {
+    type master;
+    file "/etc/bind/db.hurtado.com";
+};
+
+
+# Zona para servicios.com
+zone "servicios.com" {
+    type master;
+    file "/etc/bind/db.servicios.com";
+};
+
+# Zona para miotrositio.com
+zone "miotrositio.com" {
+    type master;
+    file "/etc/bind/db.miotrositio.com";
+};
+
+
+// Zona otrodominio.com
+zone "otrodominio.com" {
+    type master;
+    file "/etc/bind/db.otrodominio.com";
+};
+
+
+
+
+
+
+
+
+
+
+
+// parcial
+
+key "esclavo.key" {
+        algorithm hmac-sha256;
+        secret "d78J5crcDSYlNlEVuqMM7pS1l3+zed4bSVFI2Ozr9d4=";
+};
+
+zone "empresa.local" {
+    type master;
+    file "/etc/bind/db.empresa.local";
+    allow-transfer { key "esclavo.key"; };
+    notify yes;
+};
+
+zone "50.168.192.in-addr.arpa" {
+    type master;
+    file "/etc/bind/db.192.168.50";
+    allow-transfer { key "esclavo.key"; };
+    notify yes;
+};
+
+logging {
+    channel query_log {
+        file "/var/cache/bind/logs/queries.log" versions 3 size 5m;
+        print-time yes;
+    };
+    channel transfer_log {
+        file "/var/cache/bind/logs/transfers.log" versions 3 size 5m;
+        print-time yes;
+    };
+    channel security_log {
+        file "/var/cache/bind/logs/security.log" versions 3 size 5m;
+        print-time yes;
+    };
+    category queries { query_log; };
+    category xfer-out { transfer_log; };
+    category security { security_log; };
+};

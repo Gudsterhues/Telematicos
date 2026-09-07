@@ -1,0 +1,25 @@
+key "transfer-key" {
+        algorithm hmac-sha256;
+        secret "i0A6huBW23xc1hvKVd75u7qjAh546vor5iOp8maR6zc=";
+};
+
+
+options {
+    directory "/var/cache/bind";
+
+    // 1. Desactivar recursión (Evita que actúe como Open Resolver / Mitigación DDoS)
+    recursion no;
+
+    // 2. Limitar consultas únicamente a la red local y localhost
+    allow-query { 192.168.50.0/24; localhost; };
+
+    // 3. Activar Response Rate Limiting (RRL) contra ataques de amplificación
+    rate-limit {
+        responses-per-second 5;
+    };
+
+    dnssec-validation auto;
+
+    listen-on { any; };
+    listen-on-v6 { any; };
+};

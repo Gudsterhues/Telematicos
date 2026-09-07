@@ -1,0 +1,16 @@
+$TTL    604800
+@       IN      SOA     ns1.empresa.local. admin.empresa.local. (
+                  2026090801      ; Serial
+                  3600            ; Refresh
+                  1800            ; Retry
+                  604800          ; Expire
+                  86400 )         ; Minimum TTL
+
+
+@       IN      NS      maestro.empresa.local.
+@       IN      NS      esclavo.empresa.local.
+
+3       IN      PTR     maestro.empresa.local.
+2       IN      PTR     esclavo.empresa.local.
+10      IN      PTR     www.empresa.local.
+11      IN      PTR     mail.empresa.local.
